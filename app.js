@@ -41,17 +41,17 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
+app.get("/", (req, res) => {
+  res.send("<h1>Jobs Api Working</h1> <a href='/api-docs'>Documentation</a>");
+});
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-
-app.get("/", (req, res) => {
-  res.send("<h1>Jobs Api Working</h1> <a href='/api-docs'>Documentation</a>");
-});
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const port = process.env.PORT || 5001;
 
